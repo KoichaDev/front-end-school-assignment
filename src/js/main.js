@@ -25,7 +25,9 @@ const MIN_DMG = 5;
 const MAX_DMG = 10;
 const URL_IMAGE_PATH = 'src/img';
 
-let isComputerTurnRandomMonster = false;
+const randomMonster = ['slime.png', 'bat.png'];
+
+let isVisibleRandomMonster = false;
 
 let isGameOver = false;
 
@@ -46,6 +48,7 @@ function handleAttackTheCat() {
 	attackRandomHeroByBigBoss();
 	displayRandomMonster();
 	changeCharacterLifeBarColor();
+	isRandomMonsterVisible();
 }
 
 function handleAttackNamelessKnight() {
@@ -59,6 +62,7 @@ function handleAttackNamelessKnight() {
 	attackRandomHeroByBigBoss();
 	displayRandomMonster();
 	changeCharacterLifeBarColor();
+	isRandomMonsterVisible();
 }
 
 function handleAttackJuliaTheArcher() {
@@ -72,6 +76,22 @@ function handleAttackJuliaTheArcher() {
 	attackRandomHeroByBigBoss();
 	displayRandomMonster();
 	changeCharacterLifeBarColor();
+	isRandomMonsterVisible();
+}
+
+function isRandomMonsterVisible() {
+	const baseUrl = window.location.origin;
+	const relativeUrlPath = `${baseUrl}/${URL_IMAGE_PATH}`;
+	const monsterImageSrc = computerRandomMonster.src;
+
+	for (let i = 0; i < randomMonster.length; i++) {
+		const monsterType = randomMonster[i];
+		const fullImageUrlPath = `${relativeUrlPath}/${monsterType}`;
+
+		if (monsterImageSrc === fullImageUrlPath) {
+			isVisibleRandomMonster = true;
+		}
+	}
 }
 
 function attackRandomHeroByBigBoss() {
@@ -110,11 +130,10 @@ function displayRandomMonster() {
 
 	if (randomProbabilityValue >= PROBABILITY_MONSTER_APPEAR) return;
 
-	const randomMonster = ['slime.png', 'bat.png'];
 	const monsterType = getRandomMonsterImageType(randomMonster);
 
-	lifeBarRandomMonster.classList.replace('d-none', 'd-block');
-	lifeBarRandomMonster.src = `${URL_IMAGE_PATH}/${monsterType}`;
+	computerRandomMonster.classList.replace('d-none', 'd-block');
+	computerRandomMonster.src = `${URL_IMAGE_PATH}/${monsterType}`;
 }
 
 function getRandomMonsterImageType(array) {
