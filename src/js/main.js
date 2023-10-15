@@ -23,7 +23,6 @@ let healthJuliaTheArcher = +lifeBarJuliaTheArcher.textContent;
 
 const MIN_DMG = 5;
 const MAX_DMG = 10;
-const PROBABILITY_MONSTER_APPEAR = 0.25;
 const URL_IMAGE_PATH = 'src/img';
 
 let isComputerTurnRandomMonster = false;
@@ -107,17 +106,18 @@ function attackRandomHeroByBigBoss() {
 
 function displayRandomMonster() {
 	const randomProbabilityValue = Math.random();
+	const PROBABILITY_MONSTER_APPEAR = 0.25;
 
 	if (randomProbabilityValue >= PROBABILITY_MONSTER_APPEAR) return;
 
 	const randomMonster = ['slime.png', 'bat.png'];
-	const monsterType = getRandomMonsterImage(randomMonster);
+	const monsterType = getRandomMonsterImageType(randomMonster);
 
 	lifeBarRandomMonster.classList.replace('d-none', 'd-block');
 	lifeBarRandomMonster.src = `${URL_IMAGE_PATH}/${monsterType}`;
 }
 
-function getRandomMonsterImage(array) {
+function getRandomMonsterImageType(array) {
 	return getRandomAccessIndexArray(array);
 }
 
@@ -212,5 +212,3 @@ function setOutputMarkupMessage(message, imageCharacterName) {
 function printErrorMessage(message) {
 	throw new Error(message);
 }
-
-function increaseHealth() {}
