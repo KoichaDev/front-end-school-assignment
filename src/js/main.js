@@ -44,6 +44,7 @@ function handleAttackTheCat() {
 
 	createOutputGameMessage(`The Cat gave damage ${catAttackDmg} to Big Boss`, 'cat-head');
 	attackRandomHeroByBigBoss();
+	changeCharacterLifeBarColor();
 }
 
 function handleAttackNamelessKnight() {
@@ -54,6 +55,7 @@ function handleAttackNamelessKnight() {
 
 	createOutputGameMessage(`The Nameless Knight gave damage ${namelessKnightAttackDmg} to Big Boss`, 'knight');
 	attackRandomHeroByBigBoss();
+	changeCharacterLifeBarColor();
 }
 
 function handleAttackJuliaTheArcher() {
@@ -64,6 +66,7 @@ function handleAttackJuliaTheArcher() {
 
 	createOutputGameMessage(`The Nameless Knight gave damage ${juliaTheArcherAttackDmg} to Big Boss`, 'knight');
 	attackRandomHeroByBigBoss();
+	changeCharacterLifeBarColor();
 }
 
 function attackRandomHeroByBigBoss() {
@@ -90,6 +93,48 @@ function attackRandomHeroByBigBoss() {
 		regenerateLifeBarToDisplay(lifeBarJuliaTheArcher, healthJuliaTheArcher);
 		createOutputGameMessage(`Big Boss attacked on Julia the Archer ${bigBossAttackDmg}`, 'big-boss');
 	}
+}
+
+function changeCharacterLifeBarColor() {
+	changeLifeBarTheCatColor();
+
+	changeLifeBarTheNamelessKnightColor();
+
+	changeLifeBarJuliaTheArcher();
+}
+
+function changeLifeBarTheCatColor() {
+	if (healthTheCat < 50) {
+		replaceLifeBarColorOnCharacter(lifeBarTheCat, 'life-bar--success', 'life-bar--warning');
+	}
+
+	if (healthTheCat < 25) {
+		replaceLifeBarColorOnCharacter(lifeBarTheCat, 'life-bar--warning', 'life-bar--danger');
+	}
+}
+
+function changeLifeBarTheNamelessKnightColor() {
+	if (healthNamelessKnight < 50) {
+		replaceLifeBarColorOnCharacter(lifeBarNamelessKnight, 'life-bar--success', 'life-bar--warning');
+	}
+
+	if (healthNamelessKnight < 25) {
+		replaceLifeBarColorOnCharacter(lifeBarNamelessKnight, 'life-bar--warning', 'life-bar--danger');
+	}
+}
+
+function changeLifeBarJuliaTheArcher() {
+	if (healthJuliaTheArcher < 50) {
+		replaceLifeBarColorOnCharacter(lifeBarJuliaTheArcher, 'life-bar--success', 'life-bar--warning');
+	}
+
+	if (healthJuliaTheArcher < 25) {
+		replaceLifeBarColorOnCharacter(lifeBarJuliaTheArcher, 'life-bar--warning', 'life-bar--danger');
+	}
+}
+
+function replaceLifeBarColorOnCharacter(character, oldClassName, newClassName) {
+	character.classList.replace(oldClassName, newClassName);
 }
 
 function getRandomHeroIndex(arr) {
