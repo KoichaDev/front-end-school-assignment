@@ -24,14 +24,13 @@ let healthJuliaTheArcher = +lifeBarJuliaTheArcher.textContent;
 const MIN_DMG = 5;
 const MAX_DMG = 10;
 const PROBABILITY_MONSTER_APPEAR = 0.25;
+const URL_IMAGE_PATH = 'src/img';
 
 let isComputerTurnRandomMonster = false;
 
 let isGameOver = false;
 
 let gameOutputMessage = '';
-
-const heroes = ['THE_CAT', 'NAMELESS_HERO', 'JULIA_THE_ARCHER'];
 
 playerTheCat.addEventListener('click', handleAttackTheCat);
 playerNamelessKnight.addEventListener('click', handleAttackNamelessKnight);
@@ -46,6 +45,7 @@ function handleAttackTheCat() {
 
 	createOutputGameMessage(`The Cat angriper ${catAttackDmg} Big Boss`, 'cat-head');
 	attackRandomHeroByBigBoss();
+	displayRandomMonster();
 	changeCharacterLifeBarColor();
 }
 
@@ -58,6 +58,7 @@ function handleAttackNamelessKnight() {
 
 	createOutputGameMessage(`The Nameless Knight angriper ${namelessKnightAttackDmg} Big Boss`, 'knight-head');
 	attackRandomHeroByBigBoss();
+	displayRandomMonster();
 	changeCharacterLifeBarColor();
 }
 
@@ -70,11 +71,13 @@ function handleAttackJuliaTheArcher() {
 
 	createOutputGameMessage(`Julia the Archer angriper ${juliaTheArcherAttackDmg} to Big Boss`, 'julia-head');
 	attackRandomHeroByBigBoss();
+	displayRandomMonster();
 	changeCharacterLifeBarColor();
 }
 
 function attackRandomHeroByBigBoss() {
-	const randomHeroes = getRandomHeroIndex(heroes);
+	const heroes = ['THE_CAT', 'NAMELESS_HERO', 'JULIA_THE_ARCHER'];
+	const randomHeroes = getRandomAccessIndexArray(heroes);
 	const bigBossAttackDmg = generateAttackDamage();
 
 	if (randomHeroes === 'THE_CAT') {
@@ -100,6 +103,22 @@ function attackRandomHeroByBigBoss() {
 		changeLifeBarAnimation(lifeBarJuliaTheArcher, healthJuliaTheArcher);
 		createOutputGameMessage(`Big Boss angriper Julia the Archer ${bigBossAttackDmg}`, 'big-boss');
 	}
+}
+
+function displayRandomMonster() {
+	const randomProbabilityValue = Math.random();
+
+	if (randomProbabilityValue >= PROBABILITY_MONSTER_APPEAR) return;
+
+	const randomMonster = ['slime.png', 'bat.png'];
+	const monsterType = getRandomMonsterImage(randomMonster);
+
+	lifeBarRandomMonster.classList.replace('d-none', 'd-block');
+	lifeBarRandomMonster.src = `${URL_IMAGE_PATH}/${monsterType}`;
+}
+
+function getRandomMonsterImage(array) {
+	return getRandomAccessIndexArray(array);
 }
 
 function changeCharacterLifeBarColor() {
@@ -157,7 +176,7 @@ function replaceLifeBarColorOnCharacter(character, oldClassName, newClassName) {
 	character.classList.replace(oldClassName, newClassName);
 }
 
-function getRandomHeroIndex(arr) {
+function getRandomAccessIndexArray(arr) {
 	return arr[Math.floor(Math.random() * arr.length)];
 }
 
@@ -184,18 +203,10 @@ function createOutputGameMessage(message = '', imageCharacterName) {
 function setOutputMarkupMessage(message, imageCharacterName) {
 	return `
 	<div class="output-div__game-message">
-		<img src="${setImagePathUrl(imageCharacterName)}.png" />
+		<img src="${URL_IMAGE_PATH}/${imageCharacterName}.png" />
 		 <p>${message}</p>
 	</div>
 	`;
-}
-
-function setImagePathUrl(imageName) {
-	if (!imageName) {
-		printErrorMessage(' Missing Image for the character!');
-	}
-
-	return `src/img/${imageName}`;
 }
 
 function printErrorMessage(message) {
