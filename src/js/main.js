@@ -23,6 +23,7 @@ let healthJuliaTheArcher = +lifeBarJuliaTheArcher.textContent;
 
 const MIN_DMG = 5;
 const MAX_DMG = 10;
+const PROBABILITY_MONSTER_APPEAR = 0.25;
 
 let isComputerTurnRandomMonster = false;
 
@@ -43,7 +44,7 @@ function handleAttackTheCat() {
 	changeLifeBarTextContent(lifeBarBigBoss, healthBigBoss);
 	changeLifeBarAnimation(lifeBarBigBoss, healthBigBoss);
 
-	createOutputGameMessage(`The Cat gave damage ${catAttackDmg} to Big Boss`, 'cat-head');
+	createOutputGameMessage(`The Cat angriper ${catAttackDmg} Big Boss`, 'cat-head');
 	attackRandomHeroByBigBoss();
 	changeCharacterLifeBarColor();
 }
@@ -55,10 +56,7 @@ function handleAttackNamelessKnight() {
 	changeLifeBarTextContent(lifeBarBigBoss, healthBigBoss);
 	changeLifeBarAnimation(lifeBarBigBoss, healthBigBoss);
 
-	createOutputGameMessage(
-		`The Nameless Knight gave damage ${namelessKnightAttackDmg} to Big Boss`,
-		'knight-head'
-	);
+	createOutputGameMessage(`The Nameless Knight angriper ${namelessKnightAttackDmg} Big Boss`, 'knight-head');
 	attackRandomHeroByBigBoss();
 	changeCharacterLifeBarColor();
 }
@@ -70,10 +68,7 @@ function handleAttackJuliaTheArcher() {
 	changeLifeBarTextContent(lifeBarBigBoss, healthBigBoss);
 	changeLifeBarAnimation(lifeBarBigBoss, healthBigBoss);
 
-	createOutputGameMessage(
-		`The Nameless Knight gave damage ${juliaTheArcherAttackDmg} to Big Boss`,
-		'julia-head'
-	);
+	createOutputGameMessage(`Julia the Archer angriper ${juliaTheArcherAttackDmg} to Big Boss`, 'julia-head');
 	attackRandomHeroByBigBoss();
 	changeCharacterLifeBarColor();
 }
@@ -87,7 +82,7 @@ function attackRandomHeroByBigBoss() {
 
 		changeLifeBarTextContent(lifeBarTheCat, healthTheCat);
 		changeLifeBarAnimation(lifeBarTheCat, healthTheCat);
-		createOutputGameMessage(`Big Boss attacked on The Cat ${bigBossAttackDmg}`, 'big-boss');
+		createOutputGameMessage(`Big Boss angriper The Cat ${bigBossAttackDmg}`, 'big-boss');
 	}
 
 	if (randomHeroes === 'NAMELESS_HERO') {
@@ -95,7 +90,7 @@ function attackRandomHeroByBigBoss() {
 
 		changeLifeBarTextContent(lifeBarNamelessKnight, healthNamelessKnight);
 		changeLifeBarAnimation(lifeBarNamelessKnight, healthNamelessKnight);
-		createOutputGameMessage(`Big Boss attacked on the Nameless knight ${bigBossAttackDmg}`, 'big-boss');
+		createOutputGameMessage(`Big Boss angriper the Nameless knight ${bigBossAttackDmg}`, 'big-boss');
 	}
 
 	if (randomHeroes === 'JULIA_THE_ARCHER') {
@@ -103,7 +98,7 @@ function attackRandomHeroByBigBoss() {
 
 		changeLifeBarTextContent(lifeBarJuliaTheArcher, healthJuliaTheArcher);
 		changeLifeBarAnimation(lifeBarJuliaTheArcher, healthJuliaTheArcher);
-		createOutputGameMessage(`Big Boss attacked on Julia the Archer ${bigBossAttackDmg}`, 'big-boss');
+		createOutputGameMessage(`Big Boss angriper Julia the Archer ${bigBossAttackDmg}`, 'big-boss');
 	}
 }
 
