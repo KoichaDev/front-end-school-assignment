@@ -40,7 +40,8 @@ function handleAttackTheCat() {
 	const catAttackDmg = generateAttackDamage();
 	healthBigBoss -= catAttackDmg;
 
-	regenerateLifeBarToDisplay(lifeBarBigBoss, healthBigBoss);
+	changeLifeBarTextContent(lifeBarBigBoss, healthBigBoss);
+	changeLifeBarAnimation(lifeBarBigBoss, healthBigBoss);
 
 	createOutputGameMessage(`The Cat gave damage ${catAttackDmg} to Big Boss`, 'cat-head');
 	attackRandomHeroByBigBoss();
@@ -51,7 +52,8 @@ function handleAttackNamelessKnight() {
 	const namelessKnightAttackDmg = generateAttackDamage();
 	healthBigBoss -= namelessKnightAttackDmg;
 
-	regenerateLifeBarToDisplay(lifeBarBigBoss, healthBigBoss);
+	changeLifeBarTextContent(lifeBarBigBoss, healthBigBoss);
+	changeLifeBarAnimation(lifeBarBigBoss, healthBigBoss);
 
 	createOutputGameMessage(
 		`The Nameless Knight gave damage ${namelessKnightAttackDmg} to Big Boss`,
@@ -65,7 +67,8 @@ function handleAttackJuliaTheArcher() {
 	const juliaTheArcherAttackDmg = generateAttackDamage();
 	healthBigBoss -= juliaTheArcherAttackDmg;
 
-	regenerateLifeBarToDisplay(lifeBarBigBoss, healthBigBoss);
+	changeLifeBarTextContent(lifeBarBigBoss, healthBigBoss);
+	changeLifeBarAnimation(lifeBarBigBoss, healthBigBoss);
 
 	createOutputGameMessage(
 		`The Nameless Knight gave damage ${juliaTheArcherAttackDmg} to Big Boss`,
@@ -82,34 +85,50 @@ function attackRandomHeroByBigBoss() {
 	if (randomHeroes === 'THE_CAT') {
 		healthTheCat -= bigBossAttackDmg;
 
-		regenerateLifeBarToDisplay(lifeBarTheCat, healthTheCat);
+		changeLifeBarTextContent(lifeBarTheCat, healthTheCat);
+		changeLifeBarAnimation(lifeBarTheCat, healthTheCat);
 		createOutputGameMessage(`Big Boss attacked on The Cat ${bigBossAttackDmg}`, 'big-boss');
 	}
 
 	if (randomHeroes === 'NAMELESS_HERO') {
 		healthNamelessKnight -= bigBossAttackDmg;
 
-		regenerateLifeBarToDisplay(lifeBarNamelessKnight, healthNamelessKnight);
+		changeLifeBarTextContent(lifeBarNamelessKnight, healthNamelessKnight);
+		changeLifeBarAnimation(lifeBarNamelessKnight, healthNamelessKnight);
 		createOutputGameMessage(`Big Boss attacked on the Nameless knight ${bigBossAttackDmg}`, 'big-boss');
 	}
 
 	if (randomHeroes === 'JULIA_THE_ARCHER') {
 		healthJuliaTheArcher -= bigBossAttackDmg;
 
-		regenerateLifeBarToDisplay(lifeBarJuliaTheArcher, healthJuliaTheArcher);
+		changeLifeBarTextContent(lifeBarJuliaTheArcher, healthJuliaTheArcher);
+		changeLifeBarAnimation(lifeBarJuliaTheArcher, healthJuliaTheArcher);
 		createOutputGameMessage(`Big Boss attacked on Julia the Archer ${bigBossAttackDmg}`, 'big-boss');
 	}
 }
 
 function changeCharacterLifeBarColor() {
-	changeLifeBarTheCatColor();
-
-	changeLifeBarTheNamelessKnightColor();
-
-	changeLifeBarJuliaTheArcher();
+	changeLifeBarColorBigBoss();
+	changeLifeBarColorTheCat();
+	changeLifeBarColorTheNamelessKnight();
+	changeLifeBarColorJuliaTheArcher();
 }
 
-function changeLifeBarTheCatColor() {
+function changeLifeBarAnimation(character, damaged) {
+	character.style.width = `${damaged}%`;
+}
+
+function changeLifeBarColorBigBoss() {
+	if (healthBigBoss < 50) {
+		replaceLifeBarColorOnCharacter(lifeBarBigBoss, 'life-bar--success', 'life-bar--warning');
+	}
+
+	if (healthBigBoss < 25) {
+		replaceLifeBarColorOnCharacter(lifeBarBigBoss, 'life-bar--warning', 'life-bar--danger');
+	}
+}
+
+function changeLifeBarColorTheCat() {
 	if (healthTheCat < 50) {
 		replaceLifeBarColorOnCharacter(lifeBarTheCat, 'life-bar--success', 'life-bar--warning');
 	}
@@ -119,7 +138,7 @@ function changeLifeBarTheCatColor() {
 	}
 }
 
-function changeLifeBarTheNamelessKnightColor() {
+function changeLifeBarColorTheNamelessKnight() {
 	if (healthNamelessKnight < 50) {
 		replaceLifeBarColorOnCharacter(lifeBarNamelessKnight, 'life-bar--success', 'life-bar--warning');
 	}
@@ -129,7 +148,7 @@ function changeLifeBarTheNamelessKnightColor() {
 	}
 }
 
-function changeLifeBarJuliaTheArcher() {
+function changeLifeBarColorJuliaTheArcher() {
 	if (healthJuliaTheArcher < 50) {
 		replaceLifeBarColorOnCharacter(lifeBarJuliaTheArcher, 'life-bar--success', 'life-bar--warning');
 	}
@@ -151,7 +170,7 @@ function generateAttackDamage(min = MIN_DMG, max = MAX_DMG) {
 	return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function regenerateLifeBarToDisplay(characterType, healthDecrease) {
+function changeLifeBarTextContent(characterType, healthDecrease) {
 	characterType.textContent = healthDecrease;
 }
 
