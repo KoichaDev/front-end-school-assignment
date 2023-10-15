@@ -19,6 +19,8 @@ let isPlayerTurnTheNameLessKnight = true;
 let isPlayerTurnJackTheLumberJack = true;
 let isPlayerAllTurnedFinished = false;
 
+
+
 // playerTheCat.addEventListener('click');
 
 function generateAttackDamage(min, max) {

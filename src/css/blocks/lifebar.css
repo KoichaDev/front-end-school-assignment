@@ -2,7 +2,7 @@
 	position: absolute;
 	top: -32%;
 	height: 50px;
-	width: 200px;
+	width: 100%;
 }
 
 .life-bar--success {
