@@ -16,6 +16,8 @@
 }
 
 .output-div {
+	display: flex;
+	flex-direction: column-reverse;
 	font-family: sans-serif;
 	padding: 0.5rem;
 	text-align: center;
@@ -23,6 +25,19 @@
 	background-color: rgb(255, 255, 255);
 	margin: auto;
 	box-sizing: border-box;
+
+	> .output-div__game-message {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 0.5em;
+
+		> img {
+			position: static;
+			width: 25px;
+			height: 25px;
+		}
+	}
 }
 
 .william-the-healer,
