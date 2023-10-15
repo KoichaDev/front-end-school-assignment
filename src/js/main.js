@@ -53,7 +53,10 @@ function handleAttackNamelessKnight() {
 
 	regenerateLifeBarToDisplay(lifeBarBigBoss, healthBigBoss);
 
-	createOutputGameMessage(`The Nameless Knight gave damage ${namelessKnightAttackDmg} to Big Boss`, 'knight');
+	createOutputGameMessage(
+		`The Nameless Knight gave damage ${namelessKnightAttackDmg} to Big Boss`,
+		'knight-head'
+	);
 	attackRandomHeroByBigBoss();
 	changeCharacterLifeBarColor();
 }
@@ -64,7 +67,10 @@ function handleAttackJuliaTheArcher() {
 
 	regenerateLifeBarToDisplay(lifeBarBigBoss, healthBigBoss);
 
-	createOutputGameMessage(`The Nameless Knight gave damage ${juliaTheArcherAttackDmg} to Big Boss`, 'knight');
+	createOutputGameMessage(
+		`The Nameless Knight gave damage ${juliaTheArcherAttackDmg} to Big Boss`,
+		'julia-head'
+	);
 	attackRandomHeroByBigBoss();
 	changeCharacterLifeBarColor();
 }
