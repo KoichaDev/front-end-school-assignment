@@ -15,33 +15,38 @@
 			href="src/css/index.css" />
 	</head>
 	<body>
-		<div id="container">
+		<div class="container">
 			<div class="life-bar-container knight-container">
 				<img
 					src="src/img/knight-head.png"
 					alt="Life bar for the Nameless Knight" />
-				<div
-					class="life-bar"
-					data-life-bar="nameless-knight "></div>
+				<p
+					class="life-bar life-bar--success"
+					data-life-bar="nameless-knight">
+					100%
+				</p>
 			</div>
 
 			<div class="life-bar-container julia-container">
 				<img
 					src="src/img/julia-head.png"
 					alt="Life bar for Julia the Archer" />
-				<div
-					class="life-bar"
-					data-life-bar="julia-the-archer"></div>
+				<p
+					class="life-bar life-bar--success"
+					data-life-bar="julia-the-archer">
+					100%
+				</p>
 			</div>
 
 			<div class="life-bar-container cat-container">
 				<img
 					src="src/img/cat-head.png"
-					alt="Life bar for the Cat"
-					data-heroes="cat-head" />
-				<div
-					class="life-bar"
-					data-life-bar="cat-head"></div>
+					alt="Life bar for the Cat" />
+				<p
+					class="life-bar life-bar--success"
+					data-life-bar="cat-head">
+					100%
+				</p>
 			</div>
 
 			<div class="life-bar-container big-boss-container">
@@ -58,53 +63,53 @@
 				src="src/img/knight.png"
 				alt="Player selection for the nameless knight"
 				class="nameless-knight"
-				data-player="nameless-knight" />
+				data-heroes="nameless-knight" />
 
 			<img
 				id="julia-the-archer"
 				src="src/img/julia-the-archer.png"
 				alt="Select Julia the archer to attack"
 				class="julia-the-archer"
-				data-player="julia-the-archer" />
+				data-heroes="julia-the-archer" />
 
 			<img
 				src="src/img/cat.png"
 				alt="Select the cat to attack"
 				class="the-cat"
-				data-player="the-cat" />
+				data-heroes="the-cat" />
 
 			<img
 				src="src/img/healer.png"
 				alt="Select William the healer to heal one of your team"
 				class="william-the-healer"
-				data-player="william-the-healer" />
+				data-heroes="william-the-healer" />
 
 			<img
 				src="src/img/lumberjack.png"
 				alt="Select Jack the Lumberjack to attack the monster"
 				class="jack-the-lumberjack"
-				data-player="jack-the-lumberjack" />
+				data-heroes="jack-the-lumberjack" />
 
 			<img
 				src="src/img/big-boss.png"
 				alt="The big boss will attack you"
 				class="big-boss"
-				data-computer="big-boss" />
+				data-evil="big-boss" />
 
 			<img
 				src=""
 				alt="A random monster will appear if big boss have less than 25% life"
-				class="random-appearing-monster"
-				data-computer="random-monster-appear" />
+				class="random-appearing-monster | d-none"
+				data-evil="random-monster-appear" />
 		</div>
 
 		<!-- Her skrives det ut informasjon om hva brukeren gjør og hva som skjer. -->
-		<div id="output-div">
+		<div class="output-div">
 			<p>Her skal det skrives ut hva som skjer underveis i spillet.</p>
 		</div>
 
 		<script
-			src="script.js"
+			src="src/js/main.js"
 			type="text/javascript"></script>
 	</body>
 </html>

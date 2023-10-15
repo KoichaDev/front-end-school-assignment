@@ -1,0 +1,18 @@
+.life-bar {
+	position: absolute;
+	top: -32%;
+	height: 50px;
+	width: 200px;
+}
+
+.life-bar--success {
+	background-color: green;
+}
+
+.life-bar--warning {
+	background-color: orange;
+}
+
+.life-bar--danger {
+	background-color: red;
+}
