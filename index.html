@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="no">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			http-equiv="X-UA-Compatible"
+			content="IE=edge" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>AdventureLand - Final Boss Battle</title>
+
+		<link
+			rel="stylesheet"
+			href="src/css/index.css" />
+	</head>
+	<body>
+		<div id="container">
+			<div class="life-bar-container knight-container">
+				<img
+					src="src/img/knight-head.png"
+					alt="Life bar for the Nameless Knight" />
+				<div
+					class="life-bar"
+					data-life-bar="nameless-knight "></div>
+			</div>
+
+			<div class="life-bar-container julia-container">
+				<img
+					src="src/img/julia-head.png"
+					alt="Life bar for Julia the Archer" />
+				<div
+					class="life-bar"
+					data-life-bar="julia-the-archer"></div>
+			</div>
+
+			<div class="life-bar-container cat-container">
+				<img
+					src="src/img/cat-head.png"
+					alt="Life bar for the Cat"
+					data-heroes="cat-head" />
+				<div
+					class="life-bar"
+					data-life-bar="cat-head"></div>
+			</div>
+
+			<div class="life-bar-container big-boss-container">
+				<img
+					src="src/img/big-boss-head.png"
+					alt="Life bar for the big Scary Boss" />
+				<div
+					class="life-bar"
+					id="big-boss-hp-div"
+					data-life-bar="big-boss"></div>
+			</div>
+
+			<img
+				src="src/img/knight.png"
+				alt="Player selection for the nameless knight"
+				class="nameless-knight"
+				data-player="nameless-knight" />
+
+			<img
+				id="julia-the-archer"
+				src="src/img/julia-the-archer.png"
+				alt="Select Julia the archer to attack"
+				class="julia-the-archer"
+				data-player="julia-the-archer" />
+
+			<img
+				src="src/img/cat.png"
+				alt="Select the cat to attack"
+				class="the-cat"
+				data-player="the-cat" />
+
+			<img
+				src="src/img/healer.png"
+				alt="Select William the healer to heal one of your team"
+				class="william-the-healer"
+				data-player="william-the-healer" />
+
+			<img
+				src="src/img/lumberjack.png"
+				alt="Select Jack the Lumberjack to attack the monster"
+				class="jack-the-lumberjack"
+				data-player="jack-the-lumberjack" />
+
+			<img
+				src="src/img/big-boss.png"
+				alt="The big boss will attack you"
+				class="big-boss"
+				data-computer="big-boss" />
+
+			<img
+				src=""
+				alt="A random monster will appear if big boss have less than 25% life"
+				class="random-appearing-monster"
+				data-computer="random-monster-appear" />
+		</div>
+
+		<!-- Her skrives det ut informasjon om hva brukeren gjør og hva som skjer. -->
+		<div id="output-div">
+			<p>Her skal det skrives ut hva som skjer underveis i spillet.</p>
+		</div>
+
+		<script
+			src="script.js"
+			type="text/javascript"></script>
+	</body>
+</html>
