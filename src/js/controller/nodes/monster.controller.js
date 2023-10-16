@@ -7,8 +7,8 @@ import { createOutputGameMessage } from './gameMessage.controller.js';
 import { changeNodeLifeBarColor, changeLifeBarAnimation } from './healthStyling.controller.js';
 import { changeLifeBarTextContent } from './lifeBarText.controller.js';
 
-export function attackRandomHeroByBigBoss({ node, hitPoint }) {
-	const heroLifeBar = node.lifeBar.heroes;
+export function attackRandomHeroByBigBoss({ elementNode, hitPoint }) {
+	const heroLifeBar = elementNode.lifeBar.heroes;
 
 	const heroes = ['THE_CAT', 'NAMELESS_KNIGHT', 'JULIA_THE_ARCHER'];
 	const heroRandomType = getRandomAccessIndexArray(heroes);
@@ -16,7 +16,7 @@ export function attackRandomHeroByBigBoss({ node, hitPoint }) {
 	const bigBossAttackDmg = generateAttackDamage();
 
 	const payloadGameMessage = {
-		nodeOutputGameMessage: node.npc.outputGameMessage,
+		nodeOutputGameMessage: elementNode.npc.outputGameMessage,
 		message: `Big Boss angriper ${heroName} ${bigBossAttackDmg}`,
 		imageCharacterName: 'big-boss',
 	};
@@ -26,7 +26,7 @@ export function attackRandomHeroByBigBoss({ node, hitPoint }) {
 
 	heroes.forEach((heroName) => {
 		const nodePayload = {
-			...node,
+			...elementNode,
 			hitPoint,
 			characterName: heroName,
 		};
