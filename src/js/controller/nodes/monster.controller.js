@@ -1,6 +1,6 @@
-import { getRandomAccessIndexArray } from '../helpers/array.js';
+import { getRandomAccessIndexArray } from '../../helpers/array.js';
 
-import { URL_IMAGE_PATH } from '../constants/imageUrl.js';
+import { URL_IMAGE_PATH } from '../../constants/imageUrl.js';
 
 export function getMonsterName(nodeRandomMonster) {
 	return nodeRandomMonster.getAttribute('data-monster-name');

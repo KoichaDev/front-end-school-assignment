@@ -1,15 +1,16 @@
 'use strict';
 
-import { createOutputGameMessage } from './controller/nodeGameMessage.js';
-import { changeLifeBarTextContent } from './controller/nodeLifeBarText.js';
-import { healthStyling as controllerNodeLifeBarStyling } from './controller/nodeHealthStyling.js';
+import { isGameOver } from './controller/game.controller.js';
+import { createOutputGameMessage } from './controller/nodes/gameMessage.controller.js';
+import { changeLifeBarTextContent } from './controller/nodes/lifeBarText.controller.js';
+import { healthStyling as controllerNodeLifeBarStyling } from './controller/nodes/healthStyling.controller.js';
 import {
 	displayRandomMonster,
 	removeRandomMonster,
 	isRandomMonsterVisible,
 	toggleMonsterVisibility,
 	getMonsterName,
-} from './controller/nodeMonster.js';
+} from './controller/nodes/monster.controller.js';
 
 import { getRandomAccessIndexArray } from './helpers/array.js';
 import { generateAttackDamage } from './helpers/attackDamage.js';
@@ -24,7 +25,6 @@ const node = {
 		},
 		evils: {
 			bigBoss: document.querySelector('[data-life-bar="big-boss"]'),
-			randomMonster: document.querySelector('[data-evil="random-monster-appear"]'),
 		},
 	},
 	players: {
@@ -44,14 +44,11 @@ const node = {
 const hitPoint = {
 	theCat: +node.lifeBar.heroes.theCat.textContent,
 	bigBoss: +node.lifeBar.evils.bigBoss.textContent,
-	randomMonster: +node.lifeBar.evils.randomMonster.textContent,
 	namelessKnight: +node.lifeBar.heroes.namelessKnight.textContent,
 	juliaTheArcher: +node.lifeBar.heroes.juliaTheArcher.textContent,
 };
 
 const { changeLifeBarAnimation, changeNodeLifeBarColor } = controllerNodeLifeBarStyling;
-
-let isGameOver = false;
 
 const heroes = document.querySelectorAll('[data-hero="group"]')[0].children;
 
@@ -85,7 +82,6 @@ Array.from(heroes).forEach((hero) => {
 				isVisibleDangerTextColor: true,
 			};
 			createOutputGameMessage(payloadGameMessage);
-
 			return;
 		}
 
@@ -105,6 +101,10 @@ Array.from(heroes).forEach((hero) => {
 		attackRandomHeroByBigBoss();
 		createOutputGameMessage(payloadGameMessage);
 		displayRandomMonster(nodeRandomMonster);
+
+		if (isGameOver(hitPoint)) {
+			alert('Game Over!');
+		}
 	});
 });
 

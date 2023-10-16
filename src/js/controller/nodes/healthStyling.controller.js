@@ -3,7 +3,7 @@ import {
 	_changeLifeBarColorNodeJuliaTheArcher,
 	_changeLifeBarColorNodeNamelessKnight,
 	_changeLifeBarColorNodeTheCat,
-} from './nodeLifeBarColor.js';
+} from './lifeBarColor.controller.js';
 
 export const healthStyling = {
 	changeLifeBarAnimation(character, damaged) {

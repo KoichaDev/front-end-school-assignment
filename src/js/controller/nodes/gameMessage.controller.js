@@ -1,5 +1,5 @@
-import { printErrorMessage } from '../helpers/errorMessage.js';
-import { URL_IMAGE_PATH } from '../constants/imageUrl.js';
+import { printErrorMessage } from '../../helpers/errorMessage.js';
+import { URL_IMAGE_PATH } from '../../constants/imageUrl.js';
 
 export function createOutputGameMessage(payloadGameMessage) {
 	const {
