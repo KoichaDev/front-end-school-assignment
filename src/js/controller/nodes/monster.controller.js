@@ -78,7 +78,7 @@ export function toggleMonsterVisibility(isVisibleMonster = false) {
 	return isVisible;
 }
 
-export function removeRandomMonster(nodeRandomMonsterNode) {
+export function removeAppearedRandomMonster(nodeRandomMonsterNode) {
 	nodeRandomMonsterNode.src = '';
 	nodeRandomMonsterNode.classList.replace('d-block', 'd-none');
 	nodeRandomMonsterNode.removeAttribute('data-monster-name');

@@ -5,10 +5,10 @@ import { changeLifeBarTextContent } from './controller/nodes/lifeBarText.control
 import { changeLifeBarAnimation } from './controller/nodes/healthStyling.controller.js';
 import {
 	displayRandomMonster,
-	removeRandomMonster,
 	isRandomMonsterVisible,
-	toggleMonsterVisibility,
 	getMonsterName,
+	removeAppearedRandomMonster,
+	toggleMonsterVisibility,
 	attackRandomHeroByBigBoss,
 } from './controller/nodes/monster.controller.js';
 
@@ -45,61 +45,67 @@ const hitPoint = {
 const heroes = document.querySelectorAll('[data-hero="group"]')[0].children;
 
 Array.from(heroes).forEach((hero) => {
-	hero.addEventListener('click', (e) => {
-		const heroType = e.target.getAttribute('data-heroes');
+	hero.addEventListener('click', handleGameAction);
+});
 
-		const heroName = capitalizeEachWord(heroType.replaceAll('-', ' '));
-		const monsterName = getMonsterName(node.computer.randomMonster);
-		const nodeRandomMonster = node.computer.randomMonster;
+function handleGameAction(e) {
+	const heroType = e.target.getAttribute('data-heroes');
 
-		const nodePayload = {
-			node,
-			hitPoint,
-		};
+	const heroName = capitalizeEachWord(heroType.replaceAll('-', ' '));
+	const monsterName = getMonsterName(node.computer.randomMonster);
+	const nodeRandomMonster = node.computer.randomMonster;
 
-		if (isRandomMonsterVisible(monsterName)) {
-			attackRandomHeroByBigBoss(nodePayload);
+	const nodePayload = {
+		nodeRandomMonster,
+		node,
+		hitPoint,
+	};
 
-			if (heroType === 'the-cat' && monsterName === 'slime') {
-				removeRandomMonster(nodeRandomMonster);
-				toggleMonsterVisibility(false);
-				return;
-			}
-			if (heroType === 'julia-the-archer' && monsterName === 'bat') {
-				removeRandomMonster(nodeRandomMonster);
-				toggleMonsterVisibility(false);
-				return;
-			}
+	if (isRandomMonsterVisible(monsterName)) {
+		attackRandomHeroByBigBoss(nodePayload);
 
-			const payloadGameMessage = {
-				nodeOutputGameMessage: node.outputGameMessage,
-				message: `${heroName} kan ikke angripe ${monsterName}`,
-				imageCharacterName: 'cat-head',
-				isVisibleDangerTextColor: true,
-			};
-			createOutputGameMessage(payloadGameMessage);
+		if (heroType === 'the-cat' && monsterName === 'slime') {
+			removeAppearedRandomMonster(nodeRandomMonster);
+			toggleMonsterVisibility(false);
+
 			return;
 		}
 
-		const lifeBarBigBossNode = node.lifeBar.evils.bigBoss;
-		const heroDamage = generateAttackDamage();
-		hitPoint.bigBoss -= heroDamage;
+		if (heroType === 'julia-the-archer' && monsterName === 'bat') {
+			removeAppearedRandomMonster(nodeRandomMonster);
+			toggleMonsterVisibility(false);
 
-		changeLifeBarTextContent(lifeBarBigBossNode, hitPoint.bigBoss);
-		changeLifeBarAnimation(lifeBarBigBossNode, hitPoint.bigBoss);
+			return;
+		}
 
 		const payloadGameMessage = {
 			nodeOutputGameMessage: node.outputGameMessage,
-			message: `${heroName} angriper ${heroDamage} Big Boss`,
+			message: `${heroName} kan ikke angripe ${monsterName}`,
 			imageCharacterName: heroType,
+			isVisibleDangerTextColor: true,
 		};
-
-		attackRandomHeroByBigBoss(nodePayload);
 		createOutputGameMessage(payloadGameMessage);
-		displayRandomMonster(nodeRandomMonster);
+		return;
+	}
 
-		if (isGameOver(hitPoint)) {
-			alert('Game Over!');
-		}
-	});
-});
+	const lifeBarBigBossNode = node.lifeBar.evils.bigBoss;
+	const heroDamage = generateAttackDamage();
+	hitPoint.bigBoss -= heroDamage;
+
+	changeLifeBarTextContent(lifeBarBigBossNode, hitPoint.bigBoss);
+	changeLifeBarAnimation(lifeBarBigBossNode, hitPoint.bigBoss);
+
+	const payloadGameMessage = {
+		nodeOutputGameMessage: node.outputGameMessage,
+		message: `${heroName} angriper ${heroDamage} Big Boss`,
+		imageCharacterName: heroType,
+	};
+
+	attackRandomHeroByBigBoss(nodePayload);
+	createOutputGameMessage(payloadGameMessage);
+	displayRandomMonster(nodeRandomMonster);
+
+	if (isGameOver(hitPoint)) {
+		alert('Game Over!');
+	}
+}
