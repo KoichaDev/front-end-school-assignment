@@ -65,6 +65,8 @@ Array.from(heroes).forEach((hero) => {
 		const nodeRandomMonster = node.computer.randomMonster;
 
 		if (isRandomMonsterVisible(monsterName)) {
+			attackRandomHeroByBigBoss();
+
 			if (heroType === 'the-cat' && monsterName === 'slime') {
 				removeRandomMonster(nodeRandomMonster);
 				toggleMonsterVisibility(false);
@@ -83,7 +85,7 @@ Array.from(heroes).forEach((hero) => {
 				isVisibleDangerTextColor: true,
 			};
 			createOutputGameMessage(payloadGameMessage);
-			attackRandomHeroByBigBoss();
+
 			return;
 		}
 

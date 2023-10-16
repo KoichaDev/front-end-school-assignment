@@ -21,13 +21,12 @@ export function toggleMonsterVisibility(isVisibleMonster = false) {
 		isVisible = true;
 	}
 
-	console.log(isVisible);
 	return isVisible;
 }
 
 export function removeRandomMonster(nodeRandomMonsterNode) {
-	nodeRandomMonsterNode.classList.replace('d-block', 'd-none');
 	nodeRandomMonsterNode.src = '';
+	nodeRandomMonsterNode.classList.replace('d-block', 'd-none');
 	nodeRandomMonsterNode.removeAttribute('data-monster-name');
 }
 
