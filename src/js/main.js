@@ -1,233 +1,186 @@
-const lifeBarTheCat = document.querySelector('[data-life-bar="cat-head"]');
-const lifeBarBigBoss = document.querySelector('[data-life-bar="big-boss"]');
-const lifeBarNamelessKnight = document.querySelector('[data-life-bar="nameless-knight"]');
-const lifeBarRandomMonster = document.querySelector('[data-evil="random-monster-appear"]');
-const lifeBarJuliaTheArcher = document.querySelector('[data-life-bar="julia-the-archer"]');
+'use strict';
 
-const playerTheCat = document.querySelector('[data-heroes="the-cat"]');
-const playerNamelessKnight = document.querySelector('[data-heroes="nameless-knight"]');
-const playerJuliaTheArcher = document.querySelector('[data-heroes="julia-the-archer"]');
-const playerWilliamTheHealer = document.querySelector('[data-heroes="william-the-healer"]');
-const playerJackTheLumberjack = document.querySelector('[data-heroes="jack-the-lumberjack"]');
+import { healthStyling as controllerNodeLifeBarStyling } from './controller/nodeHealthStyling.js';
+import { changeLifeBarTextContent } from './controller/nodeLifeBarText.js';
+import { createOutputGameMessage } from './controller/nodeGameMessage.js';
+import { displayRandomMonster, getMonsterName } from './controller/nodeMonster.js';
 
-const computerBigBoss = document.querySelector('[data-evil="big-boss"]');
-const computerRandomMonster = document.querySelector('[data-evil="random-monster-appear" ]');
+import { getRandomAccessIndexArray } from './helpers/array.js';
+import { generateAttackDamage } from './helpers/attackDamage.js';
 
-const outputGameMessage = document.querySelector('[data-output="game-message"]');
+const node = {
+	lifeBar: {
+		heroes: {
+			theCat: document.querySelector('[data-life-bar="cat-head"]'),
+			namelessKnight: document.querySelector('[data-life-bar="nameless-knight"]'),
+			juliaTheArcher: document.querySelector('[data-life-bar="julia-the-archer"]'),
+		},
+		evils: {
+			bigBoss: document.querySelector('[data-life-bar="big-boss"]'),
+			randomMonster: document.querySelector('[data-evil="random-monster-appear"]'),
+		},
+	},
+	players: {
+		theCat: document.querySelector('[data-heroes="the-cat"]'),
+		namelessKnight: document.querySelector('[data-heroes="nameless-knight"]'),
+		juliaTheArcher: document.querySelector('[data-heroes="julia-the-archer"]'),
+		williamTheHealth: document.querySelector('[data-heroes="william-the-healer"]'),
+		jackTheLumberJack: document.querySelector('[data-heroes="jack-the-lumberjack"]'),
+	},
+	computer: {
+		bigBoss: document.querySelector('[data-evil="big-boss"]'),
+		randomMonster: document.querySelector('[data-evil="random-monster-appear" ]'),
+	},
+	outputGameMessage: document.querySelector('[data-output="game-message"]'),
+};
 
-let healthTheCat = +lifeBarTheCat.textContent;
-let healthBigBoss = +lifeBarBigBoss.textContent;
-let healthRandomMonster = +lifeBarRandomMonster.textContent;
-let healthNamelessKnight = +lifeBarNamelessKnight.textContent;
-let healthJuliaTheArcher = +lifeBarJuliaTheArcher.textContent;
+const hitPoint = {
+	theCat: +node.lifeBar.heroes.theCat.textContent,
+	bigBoss: +node.lifeBar.evils.bigBoss.textContent,
+	randomMonster: +node.lifeBar.evils.randomMonster.textContent,
+	namelessKnight: +node.lifeBar.heroes.namelessKnight.textContent,
+	juliaTheArcher: +node.lifeBar.heroes.juliaTheArcher.textContent,
+};
 
-const MIN_DMG = 5;
-const MAX_DMG = 10;
-const URL_IMAGE_PATH = 'src/img';
-
-const randomMonster = ['slime.png', 'bat.png'];
-
-let isVisibleRandomMonster = false;
+const { changeLifeBarAnimation, changeNodeLifeBarColor } = controllerNodeLifeBarStyling;
 
 let isGameOver = false;
 
-let gameOutputMessage = '';
-
-playerTheCat.addEventListener('click', handleAttackTheCat);
-playerNamelessKnight.addEventListener('click', handleAttackNamelessKnight);
-playerJuliaTheArcher.addEventListener('click', handleAttackJuliaTheArcher);
+node.players.theCat.addEventListener('click', handleAttackTheCat);
+node.players.namelessKnight.addEventListener('click', handleAttackNamelessKnight);
+node.players.juliaTheArcher.addEventListener('click', handleAttackJuliaTheArcher);
 
 function handleAttackTheCat() {
+	if (isRandomMonsterVisible()) {
+		const payloadGameMessage = {
+			nodeOutputGameMessage: node.outputGameMessage,
+			message: `The Cat kan ikke angripe ${getMonsterName(node.computer.randomMonster)}`,
+			imageCharacterName: 'cat-head',
+			isVisibleDangerTextColor: true,
+		};
+		createOutputGameMessage(payloadGameMessage);
+		attackRandomHeroByBigBoss();
+		return;
+	}
+
+	const lifeBarBigBossNode = node.lifeBar.evils.bigBoss;
 	const catAttackDmg = generateAttackDamage();
-	healthBigBoss -= catAttackDmg;
+	hitPoint.bigBoss -= catAttackDmg;
 
-	changeLifeBarTextContent(lifeBarBigBoss, healthBigBoss);
-	changeLifeBarAnimation(lifeBarBigBoss, healthBigBoss);
+	changeLifeBarTextContent(lifeBarBigBossNode, hitPoint.bigBoss);
+	changeLifeBarAnimation(lifeBarBigBossNode, hitPoint.bigBoss);
 
-	createOutputGameMessage(`The Cat angriper ${catAttackDmg} Big Boss`, 'cat-head');
+	const payloadGameMessage = {
+		nodeOutputGameMessage: node.outputGameMessage,
+		message: `The Cat angriper ${catAttackDmg} Big Boss`,
+		imageCharacterName: 'cat-head',
+	};
+
 	attackRandomHeroByBigBoss();
-	displayRandomMonster();
-	changeCharacterLifeBarColor();
-	isRandomMonsterVisible();
+	createOutputGameMessage(payloadGameMessage);
+	displayRandomMonster(node.computer.randomMonster);
 }
 
 function handleAttackNamelessKnight() {
+	const bigBossLifeBarNode = node.lifeBar.evils.bigBoss;
 	const namelessKnightAttackDmg = generateAttackDamage();
-	healthBigBoss -= namelessKnightAttackDmg;
+	hitPoint.bigBoss -= namelessKnightAttackDmg;
 
-	changeLifeBarTextContent(lifeBarBigBoss, healthBigBoss);
-	changeLifeBarAnimation(lifeBarBigBoss, healthBigBoss);
+	changeLifeBarTextContent(bigBossLifeBarNode, hitPoint.bigBoss);
+	changeLifeBarAnimation(bigBossLifeBarNode, hitPoint.bigBoss);
 
-	createOutputGameMessage(`The Nameless Knight angriper ${namelessKnightAttackDmg} Big Boss`, 'knight-head');
+	if (isRandomMonsterVisible()) {
+		// console.log(getVisibleMonsterType());
+	}
+
+	const payloadGameMessage = {
+		nodeOutputGameMessage: node.outputGameMessage,
+		message: `The Nameless Knight angriper ${namelessKnightAttackDmg} Big Boss`,
+		imageCharacterName: 'knight-head',
+	};
+
 	attackRandomHeroByBigBoss();
-	displayRandomMonster();
-	changeCharacterLifeBarColor();
-	isRandomMonsterVisible();
+	createOutputGameMessage(payloadGameMessage);
+	displayRandomMonster(node.computer.randomMonster);
 }
 
 function handleAttackJuliaTheArcher() {
+	const bigBossLifeBarNode = node.lifeBar.evils.bigBoss;
 	const juliaTheArcherAttackDmg = generateAttackDamage();
-	healthBigBoss -= juliaTheArcherAttackDmg;
+	hitPoint.bigBoss -= juliaTheArcherAttackDmg;
 
-	changeLifeBarTextContent(lifeBarBigBoss, healthBigBoss);
-	changeLifeBarAnimation(lifeBarBigBoss, healthBigBoss);
+	changeLifeBarTextContent(bigBossLifeBarNode, hitPoint.bigBoss);
+	changeLifeBarAnimation(bigBossLifeBarNode, hitPoint.bigBoss);
 
-	createOutputGameMessage(`Julia the Archer angriper ${juliaTheArcherAttackDmg} to Big Boss`, 'julia-head');
+	if (isRandomMonsterVisible()) {
+		// console.log(getVisibleMonsterType());
+	}
+
+	const payloadGameMessage = {
+		nodeOutputGameMessage: node.outputGameMessage,
+		message: `Julia the Archer angriper ${juliaTheArcherAttackDmg} to Big Boss`,
+		imageCharacterName: 'julia-head',
+	};
+
 	attackRandomHeroByBigBoss();
-	displayRandomMonster();
-	changeCharacterLifeBarColor();
-	isRandomMonsterVisible();
+	createOutputGameMessage(payloadGameMessage);
+	displayRandomMonster(node.computer.randomMonster);
 }
 
 function isRandomMonsterVisible() {
-	const baseUrl = window.location.origin;
-	const relativeUrlPath = `${baseUrl}/${URL_IMAGE_PATH}`;
-	const monsterImageSrc = computerRandomMonster.src;
+	const computedStyle = window.getComputedStyle(node.computer.randomMonster);
+	const displayValue = computedStyle.getPropertyValue('display');
 
-	for (let i = 0; i < randomMonster.length; i++) {
-		const monsterType = randomMonster[i];
-		const fullImageUrlPath = `${relativeUrlPath}/${monsterType}`;
-
-		if (monsterImageSrc === fullImageUrlPath) {
-			isVisibleRandomMonster = true;
-		}
-	}
+	// Check if the computed display property is not 'none'
+	return displayValue !== 'none';
 }
 
+function toggleVisibleMonster() {}
 function attackRandomHeroByBigBoss() {
-	const heroes = ['THE_CAT', 'NAMELESS_HERO', 'JULIA_THE_ARCHER'];
-	const randomHeroes = getRandomAccessIndexArray(heroes);
+	const heroLifeBar = node.lifeBar.heroes;
+
+	const heroes = ['THE_CAT', 'NAMELESS_KNIGHT', 'JULIA_THE_ARCHER'];
+	const heroRandomType = getRandomAccessIndexArray(heroes);
+	const heroName = heroRandomType.replaceAll('_', ' ').toLowerCase();
 	const bigBossAttackDmg = generateAttackDamage();
 
-	if (randomHeroes === 'THE_CAT') {
-		healthTheCat -= bigBossAttackDmg;
+	const payloadGameMessage = {
+		nodeOutputGameMessage: node.outputGameMessage,
+		message: `Big Boss angriper ${heroName} ${bigBossAttackDmg}`,
+		imageCharacterName: 'big-boss',
+	};
 
-		changeLifeBarTextContent(lifeBarTheCat, healthTheCat);
-		changeLifeBarAnimation(lifeBarTheCat, healthTheCat);
-		createOutputGameMessage(`Big Boss angriper The Cat ${bigBossAttackDmg}`, 'big-boss');
+	// Display Damage from the boss
+	createOutputGameMessage(payloadGameMessage);
+
+	heroes.forEach((heroName) => {
+		const nodePayload = {
+			...node,
+			hitPoint,
+			characterName: heroName,
+		};
+
+		changeNodeLifeBarColor(nodePayload);
+	});
+
+	if (heroRandomType === 'THE_CAT') {
+		hitPoint.theCat -= bigBossAttackDmg;
+
+		changeLifeBarTextContent(heroLifeBar.theCat, hitPoint.theCat);
+		changeLifeBarAnimation(heroLifeBar.theCat, hitPoint.theCat);
 	}
 
-	if (randomHeroes === 'NAMELESS_HERO') {
-		healthNamelessKnight -= bigBossAttackDmg;
+	if (heroRandomType === 'NAMELESS_KNIGHT') {
+		hitPoint.namelessKnight -= bigBossAttackDmg;
 
-		changeLifeBarTextContent(lifeBarNamelessKnight, healthNamelessKnight);
-		changeLifeBarAnimation(lifeBarNamelessKnight, healthNamelessKnight);
-		createOutputGameMessage(`Big Boss angriper the Nameless knight ${bigBossAttackDmg}`, 'big-boss');
+		changeLifeBarTextContent(heroLifeBar.namelessKnight, hitPoint.namelessKnight);
+		changeLifeBarAnimation(heroLifeBar.namelessKnight, hitPoint.namelessKnight);
 	}
 
-	if (randomHeroes === 'JULIA_THE_ARCHER') {
-		healthJuliaTheArcher -= bigBossAttackDmg;
+	if (heroRandomType === 'JULIA_THE_ARCHER') {
+		hitPoint.juliaTheArcher -= bigBossAttackDmg;
 
-		changeLifeBarTextContent(lifeBarJuliaTheArcher, healthJuliaTheArcher);
-		changeLifeBarAnimation(lifeBarJuliaTheArcher, healthJuliaTheArcher);
-		createOutputGameMessage(`Big Boss angriper Julia the Archer ${bigBossAttackDmg}`, 'big-boss');
+		changeLifeBarTextContent(heroLifeBar.juliaTheArcher, hitPoint.juliaTheArcher);
+		changeLifeBarAnimation(heroLifeBar.juliaTheArcher, hitPoint.juliaTheArcher);
 	}
-}
-
-function displayRandomMonster() {
-	const randomProbabilityValue = Math.random();
-	const PROBABILITY_MONSTER_APPEAR = 0.25;
-
-	if (randomProbabilityValue >= PROBABILITY_MONSTER_APPEAR) return;
-
-	const monsterType = getRandomMonsterImageType(randomMonster);
-
-	computerRandomMonster.classList.replace('d-none', 'd-block');
-	computerRandomMonster.src = `${URL_IMAGE_PATH}/${monsterType}`;
-}
-
-function getRandomMonsterImageType(array) {
-	return getRandomAccessIndexArray(array);
-}
-
-function changeCharacterLifeBarColor() {
-	changeLifeBarColorBigBoss();
-	changeLifeBarColorTheCat();
-	changeLifeBarColorTheNamelessKnight();
-	changeLifeBarColorJuliaTheArcher();
-}
-
-function changeLifeBarAnimation(character, damaged) {
-	character.style.width = `${damaged}%`;
-}
-
-function changeLifeBarColorBigBoss() {
-	if (healthBigBoss < 50) {
-		replaceLifeBarColorOnCharacter(lifeBarBigBoss, 'life-bar--success', 'life-bar--warning');
-	}
-
-	if (healthBigBoss < 25) {
-		replaceLifeBarColorOnCharacter(lifeBarBigBoss, 'life-bar--warning', 'life-bar--danger');
-	}
-}
-
-function changeLifeBarColorTheCat() {
-	if (healthTheCat < 50) {
-		replaceLifeBarColorOnCharacter(lifeBarTheCat, 'life-bar--success', 'life-bar--warning');
-	}
-
-	if (healthTheCat < 25) {
-		replaceLifeBarColorOnCharacter(lifeBarTheCat, 'life-bar--warning', 'life-bar--danger');
-	}
-}
-
-function changeLifeBarColorTheNamelessKnight() {
-	if (healthNamelessKnight < 50) {
-		replaceLifeBarColorOnCharacter(lifeBarNamelessKnight, 'life-bar--success', 'life-bar--warning');
-	}
-
-	if (healthNamelessKnight < 25) {
-		replaceLifeBarColorOnCharacter(lifeBarNamelessKnight, 'life-bar--warning', 'life-bar--danger');
-	}
-}
-
-function changeLifeBarColorJuliaTheArcher() {
-	if (healthJuliaTheArcher < 50) {
-		replaceLifeBarColorOnCharacter(lifeBarJuliaTheArcher, 'life-bar--success', 'life-bar--warning');
-	}
-
-	if (healthJuliaTheArcher < 25) {
-		replaceLifeBarColorOnCharacter(lifeBarJuliaTheArcher, 'life-bar--warning', 'life-bar--danger');
-	}
-}
-
-function replaceLifeBarColorOnCharacter(character, oldClassName, newClassName) {
-	character.classList.replace(oldClassName, newClassName);
-}
-
-function getRandomAccessIndexArray(arr) {
-	return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function generateAttackDamage(min = MIN_DMG, max = MAX_DMG) {
-	return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-function changeLifeBarTextContent(characterType, healthDecrease) {
-	characterType.textContent = healthDecrease;
-}
-
-function createOutputGameMessage(message = '', imageCharacterName) {
-	if (message === '') {
-		printErrorMessage('😡 Requires output message!');
-	}
-
-	if (!imageCharacterName) {
-		printErrorMessage('😡 missing image name of the character!');
-	}
-
-	outputGameMessage.innerHTML += setOutputMarkupMessage(message, imageCharacterName);
-}
-
-function setOutputMarkupMessage(message, imageCharacterName) {
-	return `
-	<div class="output-div__game-message">
-		<img src="${URL_IMAGE_PATH}/${imageCharacterName}.png" />
-		 <p>${message}</p>
-	</div>
-	`;
-}
-
-function printErrorMessage(message) {
-	throw new Error(message);
 }

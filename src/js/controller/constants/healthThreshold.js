@@ -1,0 +1,2 @@
+export const THRESHOLD_HIT_POINT_MEDIUM = 50;
+export const THRESHOLD_HIT_POINT_LOW = 25;
