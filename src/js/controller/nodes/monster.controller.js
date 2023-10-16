@@ -1,6 +1,61 @@
-import { getRandomAccessIndexArray } from '../../helpers/array.js';
-
 import { URL_IMAGE_PATH } from '../../constants/imageUrl.js';
+
+import { getRandomAccessIndexArray } from './helpers/array.js';
+import { generateAttackDamage } from '../../helpers/attackDamage.js';
+
+import { createOutputGameMessage } from './gameMessage.controller.js';
+import { changeNodeLifeBarColor, changeLifeBarAnimation } from './healthStyling.controller.js';
+import { changeLifeBarTextContent } from './lifeBarText.controller.js';
+
+export function attackRandomHeroByBigBoss({ node, hitPoint }) {
+	console.log(node);
+	const heroLifeBar = node.lifeBar.heroes;
+
+	const heroes = ['THE_CAT', 'NAMELESS_KNIGHT', 'JULIA_THE_ARCHER'];
+	const heroRandomType = getRandomAccessIndexArray(heroes);
+	const heroName = heroRandomType.replaceAll('_', ' ').toLowerCase();
+	const bigBossAttackDmg = generateAttackDamage();
+
+	const payloadGameMessage = {
+		nodeOutputGameMessage: node.outputGameMessage,
+		message: `Big Boss angriper ${heroName} ${bigBossAttackDmg}`,
+		imageCharacterName: 'big-boss',
+	};
+
+	// Display Damage from the boss
+	createOutputGameMessage(payloadGameMessage);
+
+	heroes.forEach((heroName) => {
+		const nodePayload = {
+			...node,
+			hitPoint,
+			characterName: heroName,
+		};
+
+		changeNodeLifeBarColor(nodePayload);
+	});
+
+	if (heroRandomType === 'THE_CAT') {
+		hitPoint.theCat -= bigBossAttackDmg;
+
+		changeLifeBarTextContent(heroLifeBar.theCat, hitPoint.theCat);
+		changeLifeBarAnimation(heroLifeBar.theCat, hitPoint.theCat);
+	}
+
+	if (heroRandomType === 'NAMELESS_KNIGHT') {
+		hitPoint.namelessKnight -= bigBossAttackDmg;
+
+		changeLifeBarTextContent(heroLifeBar.namelessKnight, hitPoint.namelessKnight);
+		changeLifeBarAnimation(heroLifeBar.namelessKnight, hitPoint.namelessKnight);
+	}
+
+	if (heroRandomType === 'JULIA_THE_ARCHER') {
+		hitPoint.juliaTheArcher -= bigBossAttackDmg;
+
+		changeLifeBarTextContent(heroLifeBar.juliaTheArcher, hitPoint.juliaTheArcher);
+		changeLifeBarAnimation(heroLifeBar.juliaTheArcher, hitPoint.juliaTheArcher);
+	}
+}
 
 export function getMonsterName(nodeRandomMonster) {
 	return nodeRandomMonster.getAttribute('data-monster-name');

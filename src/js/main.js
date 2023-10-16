@@ -1,18 +1,19 @@
 'use strict';
 
 import { isGameOver } from './controller/game.controller.js';
-import { createOutputGameMessage } from './controller/nodes/gameMessage.controller.js';
 import { changeLifeBarTextContent } from './controller/nodes/lifeBarText.controller.js';
-import { healthStyling as controllerNodeLifeBarStyling } from './controller/nodes/healthStyling.controller.js';
+import { changeLifeBarAnimation } from './controller/nodes/healthStyling.controller.js';
 import {
 	displayRandomMonster,
 	removeRandomMonster,
 	isRandomMonsterVisible,
 	toggleMonsterVisibility,
 	getMonsterName,
+	attackRandomHeroByBigBoss,
 } from './controller/nodes/monster.controller.js';
 
-import { getRandomAccessIndexArray } from './helpers/array.js';
+import { createOutputGameMessage } from './controller/nodes/gameMessage.controller.js';
+
 import { generateAttackDamage } from './helpers/attackDamage.js';
 import { capitalizeEachWord } from './helpers/textTransformation.js';
 
@@ -48,8 +49,6 @@ const hitPoint = {
 	juliaTheArcher: +node.lifeBar.heroes.juliaTheArcher.textContent,
 };
 
-const { changeLifeBarAnimation, changeNodeLifeBarColor } = controllerNodeLifeBarStyling;
-
 const heroes = document.querySelectorAll('[data-hero="group"]')[0].children;
 
 Array.from(heroes).forEach((hero) => {
@@ -58,11 +57,15 @@ Array.from(heroes).forEach((hero) => {
 
 		const heroName = capitalizeEachWord(heroType.replaceAll('-', ' '));
 		const monsterName = getMonsterName(node.computer.randomMonster);
-
 		const nodeRandomMonster = node.computer.randomMonster;
 
+		const nodePayload = {
+			node,
+			hitPoint,
+		};
+
 		if (isRandomMonsterVisible(monsterName)) {
-			attackRandomHeroByBigBoss();
+			attackRandomHeroByBigBoss(nodePayload);
 
 			if (heroType === 'the-cat' && monsterName === 'slime') {
 				removeRandomMonster(nodeRandomMonster);
@@ -98,7 +101,7 @@ Array.from(heroes).forEach((hero) => {
 			imageCharacterName: 'cat-head',
 		};
 
-		attackRandomHeroByBigBoss();
+		attackRandomHeroByBigBoss(nodePayload);
 		createOutputGameMessage(payloadGameMessage);
 		displayRandomMonster(nodeRandomMonster);
 
@@ -107,52 +110,3 @@ Array.from(heroes).forEach((hero) => {
 		}
 	});
 });
-
-function attackRandomHeroByBigBoss() {
-	const heroLifeBar = node.lifeBar.heroes;
-
-	const heroes = ['THE_CAT', 'NAMELESS_KNIGHT', 'JULIA_THE_ARCHER'];
-	const heroRandomType = getRandomAccessIndexArray(heroes);
-	const heroName = heroRandomType.replaceAll('_', ' ').toLowerCase();
-	const bigBossAttackDmg = generateAttackDamage();
-
-	const payloadGameMessage = {
-		nodeOutputGameMessage: node.outputGameMessage,
-		message: `Big Boss angriper ${heroName} ${bigBossAttackDmg}`,
-		imageCharacterName: 'big-boss',
-	};
-
-	// Display Damage from the boss
-	createOutputGameMessage(payloadGameMessage);
-
-	heroes.forEach((heroName) => {
-		const nodePayload = {
-			...node,
-			hitPoint,
-			characterName: heroName,
-		};
-
-		changeNodeLifeBarColor(nodePayload);
-	});
-
-	if (heroRandomType === 'THE_CAT') {
-		hitPoint.theCat -= bigBossAttackDmg;
-
-		changeLifeBarTextContent(heroLifeBar.theCat, hitPoint.theCat);
-		changeLifeBarAnimation(heroLifeBar.theCat, hitPoint.theCat);
-	}
-
-	if (heroRandomType === 'NAMELESS_KNIGHT') {
-		hitPoint.namelessKnight -= bigBossAttackDmg;
-
-		changeLifeBarTextContent(heroLifeBar.namelessKnight, hitPoint.namelessKnight);
-		changeLifeBarAnimation(heroLifeBar.namelessKnight, hitPoint.namelessKnight);
-	}
-
-	if (heroRandomType === 'JULIA_THE_ARCHER') {
-		hitPoint.juliaTheArcher -= bigBossAttackDmg;
-
-		changeLifeBarTextContent(heroLifeBar.juliaTheArcher, hitPoint.juliaTheArcher);
-		changeLifeBarAnimation(heroLifeBar.juliaTheArcher, hitPoint.juliaTheArcher);
-	}
-}
