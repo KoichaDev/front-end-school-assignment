@@ -65,14 +65,17 @@ Array.from(heroes).forEach((hero) => {
 		const nodeRandomMonster = node.computer.randomMonster;
 
 		if (isRandomMonsterVisible(monsterName)) {
+			if (heroType === 'the-cat' && monsterName === 'slime') {
+				removeRandomMonster(nodeRandomMonster);
+				toggleMonsterVisibility(false);
+				return;
+			}
 			if (heroType === 'julia-the-archer' && monsterName === 'bat') {
 				removeRandomMonster(nodeRandomMonster);
 				toggleMonsterVisibility(false);
 				return;
 			}
-		}
 
-		if (isRandomMonsterVisible(monsterName)) {
 			const payloadGameMessage = {
 				nodeOutputGameMessage: node.outputGameMessage,
 				message: `${heroName} kan ikke angripe ${monsterName}`,
