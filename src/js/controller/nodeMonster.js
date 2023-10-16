@@ -6,7 +6,31 @@ export function getMonsterName(nodeRandomMonster) {
 	return nodeRandomMonster.getAttribute('data-monster-name');
 }
 
-export function displayRandomMonster(nodeRandomMonster) {
+export function isRandomMonsterVisible(computerMonsterNode) {
+	if (computerMonsterNode !== null) {
+		return toggleMonsterVisibility(true);
+	}
+
+	return toggleMonsterVisibility(false);
+}
+
+export function toggleMonsterVisibility(isVisibleMonster = false) {
+	let isVisible = isVisibleMonster;
+
+	if (isVisible) {
+		isVisible = true;
+	}
+
+	console.log(isVisible);
+	return isVisible;
+}
+
+export function removeRandomMonster(nodeRandomMonsterNode) {
+	nodeRandomMonsterNode.classList.replace('d-block', 'd-none');
+	nodeRandomMonsterNode.src = '';
+}
+
+export function displayRandomMonster(nodeRandomMonsterNode) {
 	const randomProbabilityValue = Math.random();
 	const PROBABILITY_MONSTER_APPEAR = 0.25;
 
@@ -17,9 +41,9 @@ export function displayRandomMonster(nodeRandomMonster) {
 	const monsterType = _getRandomMonsterImageType(randomMonsterImages);
 	const monsterName = monsterType.replace('.png', '');
 
-	nodeRandomMonster.classList.replace('d-none', 'd-block');
-	nodeRandomMonster.src = `${URL_IMAGE_PATH}/${monsterType}`;
-	nodeRandomMonster.dataset.monsterName = monsterName;
+	nodeRandomMonsterNode.classList.replace('d-none', 'd-block');
+	nodeRandomMonsterNode.src = `${URL_IMAGE_PATH}/${monsterType}`;
+	nodeRandomMonsterNode.dataset.monsterName = monsterName;
 }
 
 function _getRandomMonsterImageType(array) {
