@@ -36,6 +36,7 @@ function handleGameAction(e) {
 		elementNodeHitPoint,
 	};
 
+	// When random monsters appears then we want to follow the constrained rules
 	if (isRandomMonsterVisible(monsterName)) {
 		attackRandomHeroByBigBoss(nodePayload);
 
@@ -62,6 +63,9 @@ function handleGameAction(e) {
 		createOutputGameMessage(payloadGameMessage);
 		return;
 	}
+
+	// If there is no random monsters appears, then
+	// we let the battle between player and big boss goes as usual
 
 	const lifeBarBigBossNode = elementNode.lifeBar.evils.bigBoss;
 	const heroDamage = generateAttackDamage();
