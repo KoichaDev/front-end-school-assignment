@@ -8,7 +8,6 @@ import { changeNodeLifeBarColor, changeLifeBarAnimation } from './healthStyling.
 import { changeLifeBarTextContent } from './lifeBarText.controller.js';
 
 export function attackRandomHeroByBigBoss({ node, hitPoint }) {
-	console.log(node);
 	const heroLifeBar = node.lifeBar.heroes;
 
 	const heroes = ['THE_CAT', 'NAMELESS_KNIGHT', 'JULIA_THE_ARCHER'];

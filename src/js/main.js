@@ -28,13 +28,6 @@ const node = {
 			bigBoss: document.querySelector('[data-life-bar="big-boss"]'),
 		},
 	},
-	players: {
-		theCat: document.querySelector('[data-heroes="the-cat"]'),
-		namelessKnight: document.querySelector('[data-heroes="nameless-knight"]'),
-		juliaTheArcher: document.querySelector('[data-heroes="julia-the-archer"]'),
-		williamTheHealth: document.querySelector('[data-heroes="william-the-healer"]'),
-		jackTheLumberJack: document.querySelector('[data-heroes="jack-the-lumberjack"]'),
-	},
 	computer: {
 		bigBoss: document.querySelector('[data-evil="big-boss"]'),
 		randomMonster: document.querySelector('[data-evil="random-monster-appear" ]'),
