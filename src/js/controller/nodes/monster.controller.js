@@ -7,7 +7,7 @@ import { createOutputGameMessage } from './gameMessage.controller.js';
 import { changeNodeLifeBarColor, changeLifeBarAnimation } from './healthStyling.controller.js';
 import { changeLifeBarTextContent } from './lifeBarText.controller.js';
 
-export function attackRandomHeroByBigBoss({ elementNode, hitPoint }) {
+export function attackRandomHeroByBigBoss({ elementNode, elementNodeHitPoint }) {
 	const heroLifeBar = elementNode.lifeBar.heroes;
 
 	const heroes = ['THE_CAT', 'NAMELESS_KNIGHT', 'JULIA_THE_ARCHER'];
@@ -27,7 +27,7 @@ export function attackRandomHeroByBigBoss({ elementNode, hitPoint }) {
 	heroes.forEach((heroName) => {
 		const nodePayload = {
 			...elementNode,
-			hitPoint,
+			elementNodeHitPoint,
 			characterName: heroName,
 		};
 
@@ -35,24 +35,24 @@ export function attackRandomHeroByBigBoss({ elementNode, hitPoint }) {
 	});
 
 	if (heroRandomType === 'THE_CAT') {
-		hitPoint.theCat -= bigBossAttackDmg;
+		elementNodeHitPoint.theCat -= bigBossAttackDmg;
 
-		changeLifeBarTextContent(heroLifeBar.theCat, hitPoint.theCat);
-		changeLifeBarAnimation(heroLifeBar.theCat, hitPoint.theCat);
+		changeLifeBarTextContent(heroLifeBar.theCat, elementNodeHitPoint.theCat);
+		changeLifeBarAnimation(heroLifeBar.theCat, elementNodeHitPoint.theCat);
 	}
 
 	if (heroRandomType === 'NAMELESS_KNIGHT') {
-		hitPoint.namelessKnight -= bigBossAttackDmg;
+		elementNodeHitPoint.namelessKnight -= bigBossAttackDmg;
 
-		changeLifeBarTextContent(heroLifeBar.namelessKnight, hitPoint.namelessKnight);
-		changeLifeBarAnimation(heroLifeBar.namelessKnight, hitPoint.namelessKnight);
+		changeLifeBarTextContent(heroLifeBar.namelessKnight, elementNodeHitPoint.namelessKnight);
+		changeLifeBarAnimation(heroLifeBar.namelessKnight, elementNodeHitPoint.namelessKnight);
 	}
 
 	if (heroRandomType === 'JULIA_THE_ARCHER') {
-		hitPoint.juliaTheArcher -= bigBossAttackDmg;
+		elementNodeHitPoint.juliaTheArcher -= bigBossAttackDmg;
 
-		changeLifeBarTextContent(heroLifeBar.juliaTheArcher, hitPoint.juliaTheArcher);
-		changeLifeBarAnimation(heroLifeBar.juliaTheArcher, hitPoint.juliaTheArcher);
+		changeLifeBarTextContent(heroLifeBar.juliaTheArcher, elementNodeHitPoint.juliaTheArcher);
+		changeLifeBarAnimation(heroLifeBar.juliaTheArcher, elementNodeHitPoint.juliaTheArcher);
 	}
 }
 

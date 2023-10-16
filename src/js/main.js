@@ -1,6 +1,6 @@
 'use strict';
 
-import { elementNode } from './models/elementNode.js';
+import { elementNode, elementNodeHitPoint } from './models/elementNode.js';
 
 import { isGameOver } from './controller/game.controller.js';
 import { changeLifeBarTextContent } from './controller/nodes/lifeBarText.controller.js';
@@ -19,13 +19,6 @@ import { createOutputGameMessage } from './controller/nodes/gameMessage.controll
 import { generateAttackDamage } from './helpers/attackDamage.js';
 import { capitalizeEachWord } from './helpers/textTransformation.js';
 
-const hitPoint = {
-	theCat: +elementNode.lifeBar.heroes.theCat.textContent,
-	bigBoss: +elementNode.lifeBar.evils.bigBoss.textContent,
-	namelessKnight: +elementNode.lifeBar.heroes.namelessKnight.textContent,
-	juliaTheArcher: +elementNode.lifeBar.heroes.juliaTheArcher.textContent,
-};
-
 Array.from(elementNode.pc.heroes).forEach((hero) => {
 	hero.addEventListener('click', handleGameAction);
 });
@@ -40,7 +33,7 @@ function handleGameAction(e) {
 	const nodePayload = {
 		nodeRandomMonster,
 		elementNode,
-		hitPoint,
+		elementNodeHitPoint,
 	};
 
 	if (isRandomMonsterVisible(monsterName)) {
@@ -72,10 +65,10 @@ function handleGameAction(e) {
 
 	const lifeBarBigBossNode = elementNode.lifeBar.evils.bigBoss;
 	const heroDamage = generateAttackDamage();
-	hitPoint.bigBoss -= heroDamage;
+	elementNodeHitPoint.bigBoss -= heroDamage;
 
-	changeLifeBarTextContent(lifeBarBigBossNode, hitPoint.bigBoss);
-	changeLifeBarAnimation(lifeBarBigBossNode, hitPoint.bigBoss);
+	changeLifeBarTextContent(lifeBarBigBossNode, elementNodeHitPoint.bigBoss);
+	changeLifeBarAnimation(lifeBarBigBossNode, elementNodeHitPoint.bigBoss);
 
 	const payloadGameMessage = {
 		nodeOutputGameMessage: elementNode.npc.outputGameMessage,
@@ -87,7 +80,7 @@ function handleGameAction(e) {
 	createOutputGameMessage(payloadGameMessage);
 	displayRandomMonster(nodeRandomMonster);
 
-	if (isGameOver(hitPoint)) {
+	if (isGameOver(elementNodeHitPoint)) {
 		alert('Game Over!');
 	}
 }

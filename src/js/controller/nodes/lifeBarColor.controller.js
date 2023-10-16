@@ -1,7 +1,7 @@
 import { THRESHOLD_HIT_POINT_LOW, THRESHOLD_HIT_POINT_MEDIUM } from './constants/healthThreshold.js';
 
 export function _changeLifeBarColorNodeBigBoss(nodePayload) {
-	const bigBossHitPoint = nodePayload.hitPoint.bigBoss;
+	const bigBossHitPoint = nodePayload.elementNodeHitPoint.bigBoss;
 	const bigBossLifeBar = nodePayload.lifeBar.evils.bigBoss;
 
 	if (bigBossHitPoint < THRESHOLD_HIT_POINT_MEDIUM) {
@@ -14,7 +14,7 @@ export function _changeLifeBarColorNodeBigBoss(nodePayload) {
 }
 
 export function _changeLifeBarColorNodeTheCat(nodePayload) {
-	const theCatHitPoint = nodePayload.hitPoint.theCat;
+	const theCatHitPoint = nodePayload.elementNodeHitPoint.theCat;
 	const theCatLifeBar = nodePayload.lifeBar.heroes.theCat;
 
 	if (theCatHitPoint < THRESHOLD_HIT_POINT_MEDIUM) {
@@ -27,7 +27,7 @@ export function _changeLifeBarColorNodeTheCat(nodePayload) {
 }
 
 export function _changeLifeBarColorNodeNamelessKnight(nodePayload) {
-	const namelessKnightHitPoint = nodePayload.hitPoint.namelessKnight;
+	const namelessKnightHitPoint = nodePayload.elementNodeHitPoint.namelessKnight;
 	const nameLessKnightLifeBar = nodePayload.lifeBar.heroes.namelessKnight;
 
 	if (namelessKnightHitPoint < THRESHOLD_HIT_POINT_MEDIUM) {
@@ -40,7 +40,7 @@ export function _changeLifeBarColorNodeNamelessKnight(nodePayload) {
 }
 
 export function _changeLifeBarColorNodeJuliaTheArcher(nodePayload) {
-	const juliaTheArcherHitPoint = nodePayload.hitPoint.juliaTheArcher;
+	const juliaTheArcherHitPoint = nodePayload.elementNodeHitPoint.juliaTheArcher;
 	const juliaTheArcherLifeBar = nodePayload.lifeBar.heroes.juliaTheArcher;
 
 	if (juliaTheArcherHitPoint < THRESHOLD_HIT_POINT_MEDIUM) {

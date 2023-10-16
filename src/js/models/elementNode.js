@@ -17,3 +17,10 @@ export const elementNode = {
 		outputGameMessage: document.querySelector('[data-output="game-message"]'),
 	},
 };
+
+export const elementNodeHitPoint = {
+	theCat: +elementNode.lifeBar.heroes.theCat.textContent,
+	bigBoss: +elementNode.lifeBar.evils.bigBoss.textContent,
+	namelessKnight: +elementNode.lifeBar.heroes.namelessKnight.textContent,
+	juliaTheArcher: +elementNode.lifeBar.heroes.juliaTheArcher.textContent,
+};
