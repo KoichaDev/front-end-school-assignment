@@ -86,9 +86,9 @@ export function removeAppearedRandomMonster(nodeRandomMonsterNode) {
 
 export function displayRandomMonster(nodeRandomMonsterNode) {
 	const randomProbabilityValue = Math.random();
-	const PROBABILITY_MONSTER_APPEAR = 0.25;
+	const PROBABILITY_RATE_MONSTER_APPEAR = 0.25;
 
-	if (randomProbabilityValue >= PROBABILITY_MONSTER_APPEAR) return;
+	if (randomProbabilityValue >= PROBABILITY_RATE_MONSTER_APPEAR) return;
 
 	const randomMonsterImages = ['slime.png', 'bat.png'];
 

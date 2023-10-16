@@ -28,8 +28,10 @@ const node = {
 			bigBoss: document.querySelector('[data-life-bar="big-boss"]'),
 		},
 	},
-	computer: {
-		bigBoss: document.querySelector('[data-evil="big-boss"]'),
+	pc: {
+		heroes: document.querySelectorAll('[data-hero="group"]')[0].children,
+	},
+	npc: {
 		randomMonster: document.querySelector('[data-evil="random-monster-appear" ]'),
 	},
 	outputGameMessage: document.querySelector('[data-output="game-message"]'),
@@ -42,9 +44,7 @@ const hitPoint = {
 	juliaTheArcher: +node.lifeBar.heroes.juliaTheArcher.textContent,
 };
 
-const heroes = document.querySelectorAll('[data-hero="group"]')[0].children;
-
-Array.from(heroes).forEach((hero) => {
+Array.from(node.pc.heroes).forEach((hero) => {
 	hero.addEventListener('click', handleGameAction);
 });
 
@@ -52,8 +52,8 @@ function handleGameAction(e) {
 	const heroType = e.target.getAttribute('data-heroes');
 
 	const heroName = capitalizeEachWord(heroType.replaceAll('-', ' '));
-	const monsterName = getMonsterName(node.computer.randomMonster);
-	const nodeRandomMonster = node.computer.randomMonster;
+	const monsterName = getMonsterName(node.npc.randomMonster);
+	const nodeRandomMonster = node.npc.randomMonster;
 
 	const nodePayload = {
 		nodeRandomMonster,
