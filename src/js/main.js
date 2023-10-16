@@ -33,8 +33,8 @@ const node = {
 	},
 	npc: {
 		randomMonster: document.querySelector('[data-evil="random-monster-appear" ]'),
+		outputGameMessage: document.querySelector('[data-output="game-message"]'),
 	},
-	outputGameMessage: document.querySelector('[data-output="game-message"]'),
 };
 
 const hitPoint = {
@@ -79,7 +79,7 @@ function handleGameAction(e) {
 		}
 
 		const payloadGameMessage = {
-			nodeOutputGameMessage: node.outputGameMessage,
+			nodeOutputGameMessage: node.npc.outputGameMessage,
 			message: `${heroName} kan ikke angripe ${monsterName}`,
 			imageCharacterName: heroType,
 			isVisibleDangerTextColor: true,
@@ -96,7 +96,7 @@ function handleGameAction(e) {
 	changeLifeBarAnimation(lifeBarBigBossNode, hitPoint.bigBoss);
 
 	const payloadGameMessage = {
-		nodeOutputGameMessage: node.outputGameMessage,
+		nodeOutputGameMessage: node.npc.outputGameMessage,
 		message: `${heroName} angriper ${heroDamage} Big Boss`,
 		imageCharacterName: heroType,
 	};

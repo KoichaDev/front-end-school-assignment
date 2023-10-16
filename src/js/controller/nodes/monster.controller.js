@@ -16,7 +16,7 @@ export function attackRandomHeroByBigBoss({ node, hitPoint }) {
 	const bigBossAttackDmg = generateAttackDamage();
 
 	const payloadGameMessage = {
-		nodeOutputGameMessage: node.outputGameMessage,
+		nodeOutputGameMessage: node.npc.outputGameMessage,
 		message: `Big Boss angriper ${heroName} ${bigBossAttackDmg}`,
 		imageCharacterName: 'big-boss',
 	};
