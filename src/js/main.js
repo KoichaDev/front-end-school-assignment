@@ -82,16 +82,16 @@ Array.from(heroes).forEach((hero) => {
 		}
 
 		const lifeBarBigBossNode = node.lifeBar.evils.bigBoss;
-		const catAttackDmg = generateAttackDamage();
-		hitPoint.bigBoss -= catAttackDmg;
+		const heroDamage = generateAttackDamage();
+		hitPoint.bigBoss -= heroDamage;
 
 		changeLifeBarTextContent(lifeBarBigBossNode, hitPoint.bigBoss);
 		changeLifeBarAnimation(lifeBarBigBossNode, hitPoint.bigBoss);
 
 		const payloadGameMessage = {
 			nodeOutputGameMessage: node.outputGameMessage,
-			message: `${heroName} angriper ${catAttackDmg} Big Boss`,
-			imageCharacterName: 'cat-head',
+			message: `${heroName} angriper ${heroDamage} Big Boss`,
+			imageCharacterName: heroType,
 		};
 
 		attackRandomHeroByBigBoss(nodePayload);
